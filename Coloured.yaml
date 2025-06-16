@@ -1,0 +1,57 @@
+schemas:
+  customer:
+    color: "#a2d2ff"
+    fields:
+      - customer_id: int
+      - first_name: string
+      - last_name: string
+      - created_at: datetime
+
+  orders:
+    color: "#4895ef"
+    fields:
+      - order_id: int
+      - customer_id: int
+      - amount: float
+      - status: string
+      - created_at: datetime
+
+  dim_customer:
+    color: "#fbb1bd"
+    fields:
+      - customer_key: int
+      - first_name: string
+      - last_name: string
+      - registered_date: datetime
+
+  fact_orders:
+    color: "#fef9b3"
+    fields:
+      - order_key: int
+      - customer_key: int
+      - total_amount: float
+      - order_status: string
+      - order_date: datetime
+
+  dim_customer_profile:
+    color: "#b8f2e6"
+    fields:
+      - customer_id: int
+      - email: string
+      - contact_number: string
+
+relations:
+  - [orders, fact_orders, "order_id → order_key"]
+  - [orders, fact_orders, "customer_id → customer_key"]
+  - [orders, fact_orders, "amount → total_amount"]
+  - [orders, fact_orders, "status → order_status"]
+  - [orders, fact_orders, "created_at → order_date"]
+
+  - [customer, dim_customer, "customer_id → customer_key"]
+  - [customer, dim_customer, "first_name → first_name"]
+  - [customer, dim_customer, "last_name → last_name"]
+  - [customer, dim_customer, "created_at → registered_date"]
+
+  - [customer, dim_customer_profile, "customer_id → customer_id"]
+  - [customer, dim_customer_profile, "email → email"]
+  - [customer, dim_customer_profile, "phone → contact_number"]
